@@ -1,5 +1,26 @@
-<script>
+<script setup>
 
+import { Link } from '@inertiajs/vue3';
+import {ref, watch} from "vue";
+import {router} from "@inertiajs/vue3";
+import { debounce} from "lodash"
+defineProps(
+    {
+        users:Object,
+        searchTerm: String,
+        can: Object,
+    }
+);
+const getDate = (date) =>
+    new Date(date).toLocaleDateString("en-us",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        }
+    );
+    const search = ref("");
+    watch(search, debounce((q)=> router.get('/dashboard', {search: q}, {preserveState:true}), 500))
 </script>
 <template>
     <div>
@@ -36,7 +57,7 @@
                 <p class=" text-lg text-left" >Pending</p>
                 <h1 class="mt-1">20 <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
-            <div class="bg-[#313d4a] p-1 rounded-full">
+            <div class="bg-[#e3e629e3] p-1 rounded-full">
                 <svg fill="#ffffff" class="w-6 h-6"  version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 86.285 86.285" xml:space="preserve" stroke="#ffffff">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
@@ -49,7 +70,7 @@
                 <p class=" text-lg text-left" >Resolved</p>
                 <h1 class="mt-1" >11 <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
-            <div class="bg-[#313d4a] p-1.5 rounded-full">
+            <div class="bg-[#47b150] p-1.5 rounded-full">
                 <svg fill="#ffffff"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 72 72" enable-background="new 0 0 72 72" xml:space="preserve" stroke="#ffffff">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
@@ -59,290 +80,133 @@
         </div>
 
     </div>
-      <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
-          <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
-          <div class="border  border-white w-full border-b-0 ">
-          </div>
-          <ul class=" w-full">
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-green-500 p-1 rounded-lg ">solved</h1>
-                        <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                        <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                        <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2   rounded-lg ">In progress</h1>
-                        <button class="bg-yellow p-1 px-2 px-2  bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>     
-      </ul>
-
-      </div>
-      <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
-          <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
-          <div class="border  border-white w-full border-b-0 ">
-          </div>
-          <ul class=" w-full">
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto  text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-green-500 p-1 rounded-lg ">solved</h1>
-                        <button class="p-1  bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                        <button class="bg-gray p-1 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                        <button class="bg-gray p-1 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-              <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div>
-                        <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div>
-                        <p class="text-sm text-left font-medium truncate text-white">
-                            Neil Sims
-                        </p>
-                        <p class="text-xs text-gray-300 truncate">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                        <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">In progress</h1>
-                        <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                    </div>
-
-                </div>
-            </li>
-              
-          
-      </ul>
-
-<!-- <div class="">
-    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-        <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Neil Sims
-                    </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        email@windster.com
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    $320
-                </div>
+    <div class=" ">
+        <!-- <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3> -->
+            <div class="flex justify-end mb-4">
+                    <input type="search" v-model="search" class="h-8 w-[200px]" placeholder="Search"></input>
             </div>
-        </li>
-        <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Bonnie Green
-                    </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        email@windster.com
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    $3467
-                </div>
+        <table class="">
+            <thead>
+                <tr class="text-white font-extrabold bg-[#1d2631] shadow-lg">
+                    <th>Avatar</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registeration Date</th>
+                    <th v-if="can.delete_user">Delete</th>
+                </tr>
+            </thead>
+            <tbody class="bg-[#24303f]">
+                <tr class=" hover:text-gray-500 bg hover:rounded-lg " v-for="user in users.data" :key="user.id">
+                    <th><img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image"></th>
+                    <th >{{user.name}}</th>
+                    <th>{{user.email}}</th>
+                    <th>{{getDate(user.created_at)}}</th>
+                    <th v-if="can.delete_user"><button>delete</button></th>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex w-full  justify-end items-end ">
+            <Link v-for="link in users.links" :key="link.label"
+              v-html="link.label"
+              :href="link.url" 
+              class="text-base bg-[#24303f] rounded-md text-right p-1 px-3 mx-1 "
+              :class="{'text-[#37475c]' : !link.url, 'bg-[#576479]' : link.active}"></Link>
+        
             </div>
-        </li>
-        <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Michael image">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Michael Gough
-                    </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        email@windster.com
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    $67
-                </div>
-            </div>
-        </li>
-        <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Lana image">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Lana Byrd
-                    </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        email@windster.com
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    $367
-                </div>
-            </div>
-        </li>
-        <li class="pt-3 pb-0 sm:pt-4">
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Thomas image">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Thomes Lean
-                    </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        email@windster.com
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    $2367
-                </div>
-            </div>
-        </li>
-    </ul>
-</div> -->
-
-      </div>
-      
-   </div>
-</div>
-        </h1>
     </div>
+    <!-- <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
+          <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
+                <div class="border  border-white w-full border-b-0 ">
+                </div>
+                <ul class=" w-full">
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-green-500 p-1 rounded-lg ">solved</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2   rounded-lg ">In progress</h1>
+                                <button class="bg-yellow p-1 px-2 px-2  bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>     
+                </ul>
+    </div> -->
+        </div>
+    </div>
+</h1>
+</div>
 </template>

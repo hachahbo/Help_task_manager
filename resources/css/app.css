@@ -19,6 +19,9 @@
     input[type="url"], textarea {
         @apply block w-[300px] bg-[#1d2a39] rounded-md  p-2 border  placeholder:text-slate-500    sm:text-sm text-white border-[#354355];
     }
+    input[type="search"], textarea {
+        @apply block w-[200px] bg-[#1d2a39] rounded-md  p-2 border  placeholder:text-slate-500    sm:text-sm text-white border-[#354355];
+    }
     label {
         @apply block text-sm font-medium leading-6 text-slate-900 first-letter:capitalize;
     }
