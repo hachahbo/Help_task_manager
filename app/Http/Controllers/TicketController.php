@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Inertia\Inertia;
 
 class TicketController extends Controller
 {
@@ -18,19 +18,35 @@ class TicketController extends Controller
     // Handle form submission
     public function store(Request $request)
     {
-    // Validate input
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-    ]);
+        // Validate input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'priority' => 'required|string|in:low,medium,high', 
+            'category' => 'required|string|in:bug,feature_request,support',
+            ]
+        );
+        // dd('pass');
 
-    // Create the ticket with the submitter ID
-    Ticket::create([
-        'title' => $validated['title'],
-        'description' => $validated['description'],
-        'submitter_id' => Auth::id(), // Get the authenticated user ID
-    ]);
+        // Create the ticket with the submitter ID
+        Ticket::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'priority' => $request->priority,
+            'category' => $request->category,
+            'submitter_id' => auth()->id(),
+            'status' => 'in_progress',
+        ]);
+        // Ticket::create($request->all());
 
-    return redirect()->route('dashboard')->with('success', 'Ticket created successfully!');
+        return redirect()->route('dashboard')->with('success', 'Ticket created successfully!');
+    }
+
+    public function index()
+    {
+        $tickets = Ticket::all();
+        return Inertia::render('Tickets/Index', [
+            'tickets' => $tickets,
+        ]);
     }
 }

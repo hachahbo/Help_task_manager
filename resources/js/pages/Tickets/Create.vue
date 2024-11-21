@@ -18,16 +18,16 @@
                 <textarea
                     v-model="form.description"
                     id="description"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                    class="mt-1 block w-full rounded-md shadow-sm"
                 ></textarea>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 ">
                 <label for="priority" class="block text-sm font-medium text-gray-400">Priority</label>
                 <select
                     v-model="form.priority"
                     id="priority"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                    class="mt-1 block p-2 w-24 text-white bg-[#1d2a39] rounded-md shadow-sm"
                     required
                 >
                     <option value="low">Low</option>
@@ -37,16 +37,16 @@
             </div>
 
             <div class="mb-4">
-                <label for="category_id" class="block text-sm font-medium text-gray-400">Category</label>
+                <label for="category" class="block text-sm font-medium text-gray-400">Category</label>
                 <select
-                    v-model="form.category_id"
-                    id="category_id"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                    v-model="form.category"
+                    id="category"
+                    class="mt-1 block p-2 w-36 text-white bg-[#1d2a39] rounded-md shadow-sm"
                     required
                 >
-                    <option value="1">Bug</option>
-                    <option value="2">Feature Request</option>
-                    <option value="3">Support</option>
+                    <option value="bug">Bug</option>
+                    <option value="feature_request">Feature Request</option>
+                    <option value="support">Support</option>
                 </select>
             </div>
 
@@ -69,8 +69,9 @@ export default {
             title: "",
             description: "",
             priority: "low",
-            category_id: 1, // Default category
+            category: "bug", // Default category
         });
+
 
         const submit = () => {
             form.post(route("tickets.store"));

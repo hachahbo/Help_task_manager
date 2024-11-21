@@ -52,3 +52,5 @@ Route::get('/tickets/create', [TicketController::class, 'create'])->name('ticket
 
 // Route to handle form submission
 Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+//dislay he tickets
+Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');

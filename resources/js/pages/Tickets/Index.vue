@@ -1,35 +1,26 @@
 <template>
-    <div>
-      <h1>All Tickets</h1>
-      <div v-if="tickets.length === 0">
-        <p>No tickets found.</p>
+  <div class="max-w-4xl mx-auto bg-[#24303f] p-5 rounded sm:ml-64">
+      <h1 class="text-2xl font-semibold text-white mb-4">Tickets</h1>
+      <div v-if="tickets.length" class="space-y-4">
+          <div
+              v-for="ticket in tickets"
+              :key="ticket.id"
+              class="p-4 bg-gray-800 text-white rounded shadow"
+          >
+              <h2 class="text-lg font-semibold">{{ ticket.title }}</h2>
+              <p class="text-sm text-gray-400">Priority: {{ ticket.priority }}</p>
+              <p class="text-sm text-gray-400">Category: {{ ticket.category }}</p>
+              <p class="text-sm text-gray-400">Description: {{ ticket.description || 'N/A' }}</p>
+          </div>
       </div>
-      <div v-for="ticket in tickets" :key="ticket.id" class="ticket">
-        <h3>{{ ticket.title }}</h3>
-        <p>{{ ticket.priority }} - {{ ticket.status }}</p>
-        <router-link :to="`/tickets/${ticket.id}`">View Details</router-link>
-        <form :action="`/tickets/${ticket.id}`" method="POST" @submit.prevent="deleteTicket(ticket.id)">
-          @csrf
-          @method('DELETE')
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-      <router-link to="/tickets/create">Create New Ticket</router-link>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      tickets: Array, // This will be passed from the backend
-    },
-    methods: {
-      deleteTicket(ticketId) {
-        if (confirm('Are you sure you want to delete this ticket?')) {
-          this.$inertia.delete(`/tickets/${ticketId}`);
-        }
-      },
-    },
-  }
-  </script>
-  
+      <div v-else class="text-gray-400">No tickets found.</div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+      tickets: Array,
+  },
+};
+</script>

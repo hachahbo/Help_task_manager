@@ -82,11 +82,20 @@ const getDate = (date) =>
         </div>
 
     </div>
-    <div class=" ">
-        <!-- <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3> -->
-            <div class="flex justify-end mb-4">
+        
+    <div class="">
+        <div class="flex items-center justify-between mb-2">
+            <div class="text-base">
+                <Link
+            :href="route('tickets.index')"
+            class="flex  bg-[#24303f] items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group">
+            <span class=" font-semibold ">View Tickets</span>
+        </Link>
+            </div>
+            <div class="flex justify-end ">
                     <input type="search" v-model="search" class="h-8 w-[200px]" placeholder="Search"></input>
             </div>
+        </div>
         <table class="">
             <thead>
                 <tr class="text-white font-extrabold bg-[#1d2631] shadow-lg">
@@ -116,6 +125,8 @@ const getDate = (date) =>
         
             </div>
     </div>
+
+
     <!-- <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
           <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
                 <div class="border  border-white w-full border-b-0 ">

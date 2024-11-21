@@ -45,7 +45,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function submittedTickets()
+    public function tickets()
     {
         return $this->hasMany(Ticket::class, 'submitter_id');
     }

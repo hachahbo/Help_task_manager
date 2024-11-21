@@ -17,11 +17,11 @@ class Ticket extends Model
     protected $fillable = [
         'title',
         'description',
-        'status',
         'priority',
-        'category_id',
+        'category',
         'submitter_id',
-        'assigned_tech_id',
+        'status',
+        // 'assigned_tech_id',
     ];
 
     /**
