@@ -7,23 +7,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use app\Models\ticket;
-
-// not authorised
-
-Route::inertia('/', 'Home')->name('home');
-
-
-Route::inertia('/register', 'Auth/Register')->name('register');
-Route::post('register', [AuthController::class, 'register']);
-
-
-Route::inertia('/login', 'Auth/Login')->name('login');
-Route::post('login', [AuthController::class, 'login']);
-// ---------
-
-
-
 use App\Http\Controllers\TicketController;
+
+Route::middleware('guest')->group(function () {
+    Route::inertia('/', 'Home')->name('home');
+    Route::inertia('/register', 'Auth/Register')->name('register');
+    Route::post('register', [AuthController::class, 'register']);
+    Route::inertia('/login', 'Auth/Login')->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+});
+
+
 
 Route::middleware(['auth'])->group(function () {
     // authorised
