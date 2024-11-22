@@ -8,7 +8,7 @@
                 <h1 class="title">Welcom to </h1>
                 <div>
                     <Link :href="route('dashboard')" class="flex   items-center px-1 text-white ">
-                    <svg fill="#ffffff"  class="w-10 h-10 " version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                        <svg fill="#ffffff"  class="w-10 h-10 " version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                         viewBox="0 0 512.005 512.005" xml:space="preserve">
                         <g>
                             <g>
@@ -50,9 +50,9 @@
                                 </g>
                             </g>
                         </g>
-                    </svg>
-                   <Link class="ml-2 title" :href="route('dashboard')">Mytickets</Link>
-                </Link>
+                        </svg>
+                        <Link class="ml-2 title" :href="route('dashboard')">Mytickets</Link>
+                    </Link>
                 </div>
             </div>
             <div class="text-center w-96 ">

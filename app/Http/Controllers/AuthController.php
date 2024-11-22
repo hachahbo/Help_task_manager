@@ -40,7 +40,7 @@ class AuthController extends Controller
             DB::commit();
 
             // Redirect after successful login
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with('greet', 'welcome to Mytickets');
         } catch (\Exception $e) {
             // Rollback the transaction if there is an error
             DB::rollBack();
@@ -61,7 +61,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
     
             // Redirect to the home page
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with('greet', 'welcome to Mytickets');;
         }
     
         return back()->withErrors([
@@ -81,5 +81,6 @@ class AuthController extends Controller
             // Redirect the user to the login page
             return redirect()->route('login');
         }
+        
         
 }

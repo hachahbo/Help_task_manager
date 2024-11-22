@@ -13,11 +13,9 @@
           </div>
       </div>
       <div v-if="tickets.length" class="space-y-4">
-        <div
-        v-for="ticket in tickets"
-        :key="ticket.id"
-        class="p-4 gap-4 bg-gray-800  text-white rounded shadow flex justify-between"
-        >
+        <div v-for="ticket in tickets.slice().reverse()"
+            :key="ticket.id"
+            class="p-4 gap-4 bg-gray-800  text-white rounded shadow flex justify-between">
         <div>
           <h2 class="text-lg font-semibold">{{ ticket.title }}</h2>
           <p class ="text-sm text-gray-400"><span class="text-white">Submitter</span>: {{ ticket.submitter || 'N/A' }}</p>
@@ -30,6 +28,12 @@
         >
           Delete
         </button>
+        <Link
+                :href="`/tickets/${ticket.id}`"
+                class="bg-gray-600  text-white text-sm px-3 py-1.5 rounded hover:bg-gray-700"
+            >
+                View Details
+        </Link>
         </div>
         <div class=" flex items-center ">
               <svg fill="#ffffff"  class="w-16 h-16  text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -91,6 +95,9 @@ export default {
         tickets: Array,
     },
     methods: {
+        viewDetails(ticketId) {
+                this.$router.push({ name: 'TicketDetails', params: { id: ticketId } });
+        },
         deleteTicket(ticketId) {
             if (confirm('Are you sure you want to delete this ticket?')) {
                 // Perform the DELETE request using router.delete

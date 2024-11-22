@@ -26,6 +26,7 @@ const getDate = (date) =>
     <div>
         <h1 class="title"> 
             <div class="p-4 sm:ml-64">
+                <p class="bg-gray-700 rounded-lg w-96 m-auto  text-white">{{ $page.props.flash.greet }}</p>
    <div class="p-4  border-gray-200 border-dashed rounded-lg dark:border-gray-700
    ">
    <div class="relative mb-10">

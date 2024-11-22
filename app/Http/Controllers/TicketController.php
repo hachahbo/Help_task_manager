@@ -26,7 +26,7 @@ class TicketController extends Controller
             'category' => 'required|string|in:bug,feature_request,support',
             ]
         );
-
+        
         // dd(Auth::user()->name);
 
         // Create the ticket with the submitter ID
@@ -57,5 +57,11 @@ class TicketController extends Controller
         return redirect()->route('tickets.index')->with('success', 'Ticket deleted successfully');
     }
 
+    public function show(Ticket $ticket)
+    {
 
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket,
+        ]);
+    }
 }

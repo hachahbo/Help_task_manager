@@ -47,5 +47,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('tickets.destroy');
     // 
+
+    Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+
 });
 
