@@ -32,9 +32,9 @@ const getDate = (date) =>
         <div class="absolute flex items-center right-0 top-1/4 transform -translate-y-1/4">
             <Link
             :href="route('tickets.create')"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group">
+                class="flex items-center p-1.5 text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group">
                 <svg fill="white" class="text-gray-500 transition duration-75 dark:text-gray-400  group-hover:text-gray-900 dark:group-hover:text-white" width="20px" height="20px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><title>ionicons-v5-n</title><path d="M459.94,53.25a16.06,16.06,0,0,0-23.22-.56L424.35,65a8,8,0,0,0,0,11.31l11.34,11.32a8,8,0,0,0,11.34,0l12.06-12C465.19,69.54,465.76,59.62,459.94,53.25Z"/><path d="M399.34,90,218.82,270.2a9,9,0,0,0-2.31,3.93L208.16,299a3.91,3.91,0,0,0,4.86,4.86l24.85-8.35a9,9,0,0,0,3.93-2.31L422,112.66A9,9,0,0,0,422,100L412.05,90A9,9,0,0,0,399.34,90Z"/><path d="M386.34,193.66,264.45,315.79A41.08,41.08,0,0,1,247.58,326l-25.9,8.67a35.92,35.92,0,0,1-44.33-44.33l8.67-25.9a41.08,41.08,0,0,1,10.19-16.87L318.34,125.66A8,8,0,0,0,312.69,112H104a56,56,0,0,0-56,56V408a56,56,0,0,0,56,56H344a56,56,0,0,0,56-56V199.31A8,8,0,0,0,386.34,193.66Z"/></svg>
-                <span class="ml-2 font-semibold text-lg">Create</span>
+                <span class="ml-1 font-semibold text-base">Create</span>
             </Link>
         </div>
    </div>
@@ -45,7 +45,7 @@ const getDate = (date) =>
    <div class="grid grid-cols-3 gap-4 mb-4">
        <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
            <div class="gap-6">
-                <p class=" text-lg text-left " >In progress</p>
+                <p class=" text-lg text-left " >Pending</p>
                 <h1 class="mt-1" >45 <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1 rounded-full">
@@ -56,10 +56,10 @@ const getDate = (date) =>
         </div>
         <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
             <div class="gap-6">
-                <p class=" text-lg text-left" >Pending</p>
+                <p class=" text-lg text-left" >In progress</p>
                 <h1 class="mt-1">20 <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
-            <div class="bg-[#e3e629e3] p-1 rounded-full">
+            <div class="bg-[#313d4a] p-1 rounded-full">
                 <svg fill="#ffffff" class="w-6 h-6"  version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 86.285 86.285" xml:space="preserve" stroke="#ffffff">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
@@ -72,7 +72,7 @@ const getDate = (date) =>
                 <p class=" text-lg text-left" >Resolved</p>
                 <h1 class="mt-1" >11 <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
-            <div class="bg-[#47b150] p-1.5 rounded-full">
+            <div class="bg-[#313d4a] p-1.5 rounded-full">
                 <svg fill="#ffffff"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 72 72" enable-background="new 0 0 72 72" xml:space="preserve" stroke="#ffffff">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
@@ -84,34 +84,23 @@ const getDate = (date) =>
     </div>
         
     <div class="">
-        <div class="flex items-center justify-between mb-2">
-            <div class="text-base">
-                <Link
-            :href="route('tickets.index')"
-            class="flex  bg-[#24303f] items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-500 dark:hover:bg-gray-700 group">
-            <span class=" font-semibold ">View Tickets</span>
-        </Link>
-            </div>
-            <div class="flex justify-end ">
+            <div class="flex justify-end mb-2 ">
                     <input type="search" v-model="search" class="h-8 w-[200px]" placeholder="Search"></input>
             </div>
-        </div>
         <table class="">
             <thead>
                 <tr class="text-white font-extrabold bg-[#1d2631] shadow-lg">
                     <th>Avatar</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Registeration Date</th>
                     <th v-if="can.delete_user">Delete</th>
                 </tr>
             </thead>
             <tbody class="bg-[#24303f]">
-                <tr class=" hover:text-gray-500 bg hover:rounded-lg " v-for="user in users.data" :key="user.id">
-                    <th><img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image"></th>
+                <tr class=" hover:text-gray-500 hover:rounded-lg " v-for="user in users.data" :key="user.id">
+                    <th><img class="w-12 h-12 rounded-full mr-3 " src="./Frame.png" alt="Neil image"></th>
                     <th >{{user.name}}</th>
                     <th>{{user.email}}</th>
-                    <th>{{getDate(user.created_at)}}</th>
                     <th v-if="can.delete_user"><button>delete</button></th>
                 </tr>
             </tbody>

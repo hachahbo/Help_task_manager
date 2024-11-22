@@ -26,7 +26,8 @@ class TicketController extends Controller
             'category' => 'required|string|in:bug,feature_request,support',
             ]
         );
-        // dd('pass');
+
+        // dd(Auth::user()->name);
 
         // Create the ticket with the submitter ID
         Ticket::create([
@@ -35,6 +36,7 @@ class TicketController extends Controller
             'priority' => $request->priority,
             'category' => $request->category,
             'submitter_id' => auth()->id(),
+            'submitter' => Auth::user()->name,
             'status' => 'in_progress',
         ]);
         // Ticket::create($request->all());
@@ -49,4 +51,11 @@ class TicketController extends Controller
             'tickets' => $tickets,
         ]);
     }
+    public function destroy(Ticket $ticket)
+    {
+        $ticket->delete();
+        return redirect()->route('tickets.index')->with('success', 'Ticket deleted successfully');
+    }
+
+
 }

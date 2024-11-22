@@ -20,6 +20,7 @@ class Ticket extends Model
         'priority',
         'category',
         'submitter_id',
+        'submitter',
         'status',
         // 'assigned_tech_id',
     ];

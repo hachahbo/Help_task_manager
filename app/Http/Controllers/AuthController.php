@@ -81,4 +81,5 @@ class AuthController extends Controller
             // Redirect the user to the login page
             return redirect()->route('login');
         }
+        
 }

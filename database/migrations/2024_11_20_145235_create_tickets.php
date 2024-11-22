@@ -18,8 +18,9 @@ return new class extends Migration
             $table->enum('status', ['in_progress', 'pending', 'resolved',])->default('in_progress'); // Status
             $table->enum('priority', ['low', 'medium', 'high', 'critical'])->default('low'); // Priority
             $table->enum('category', ['bug', 'feature_request', 'support'])->default('bug');
-            // $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); // Foreign key for categories
+            $table->string('submitter')->default("dafault"); // Replace 1 with the desired default value
             $table->unsignedBigInteger('submitter_id')->default(1); // Replace 1 with the desired default value
+            // $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); // Foreign key for categories
             // $table->foreignId('assigned_tech_id')->nullable()->constrained('users')->onDelete('set null'); // Foreign key for the technician
             $table->timestamps(); // Timestamps for created_at and updated_at
         });
