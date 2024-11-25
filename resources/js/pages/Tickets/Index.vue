@@ -100,12 +100,10 @@ export default {
         },
         deleteTicket(ticketId) {
             if (confirm('Are you sure you want to delete this ticket?')) {
-                // Perform the DELETE request using router.delete
                 router.delete(route('tickets.destroy', ticketId), {
                     onSuccess: () => {
                         console.log('Ticket deleted successfully');
-                        // Optionally, you can redirect to another page after deletion
-                        // router.visit('/tickets');
+
                     },
                     onError: () => {
                         console.log('Failed to delete ticket');

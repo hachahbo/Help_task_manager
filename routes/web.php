@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     // 
 
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+    Route::post('/test', function () {
+        return redirect()->back()->with('toast', 'Toast endpoint!');
+    });
 
 });
 

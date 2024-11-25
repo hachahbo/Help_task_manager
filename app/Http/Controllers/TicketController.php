@@ -37,11 +37,11 @@ class TicketController extends Controller
             'category' => $request->category,
             'submitter_id' => auth()->id(),
             'submitter' => Auth::user()->name,
-            'status' => 'in_progress',
+            'status' => 'pending',
         ]);
         // Ticket::create($request->all());
 
-        return redirect()->route('dashboard')->with('success', 'Ticket created successfully!');
+        return redirect()->route('tickets.index')->with('toast', 'Ticket created successfully!');
     }
 
     public function index()
@@ -54,7 +54,7 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         $ticket->delete();
-        return redirect()->route('tickets.index')->with('success', 'Ticket deleted successfully');
+        return redirect()->route('tickets.index')->with('toast', 'Ticket deleted successfully');
     }
 
     public function show(Ticket $ticket)

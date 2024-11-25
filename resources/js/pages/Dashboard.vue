@@ -1,9 +1,11 @@
 <script setup>
 
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import {ref, watch} from "vue";
 import {router} from "@inertiajs/vue3";
 import { debounce} from "lodash"
+import toast from './stores/toast';
+import { usePage } from '@inertiajs/vue3';
 defineProps(
     {
         users:Object,
@@ -21,12 +23,37 @@ const getDate = (date) =>
     );
     const search = ref("");
     watch(search, debounce((q)=> router.get('/dashboard', {search: q}, {preserveState:true}), 500))
+const form = useForm({});
+
+function submit()
+{
+    form.post("/test")
+}
+function addToast()
+{
+    toast.add(
+        {
+            message: 'hello from dashboard'
+        }
+    )
+}
+const page = usePage()
+    console.log(page.props.toast);
 </script>
 <template>
     <div>
         <h1 class="title"> 
             <div class="p-4 sm:ml-64">
-                <p class="bg-gray-700 rounded-lg w-96 m-auto  text-white">{{ $page.props.flash.greet }}</p>
+                <!-- <div class="flex justify-start">
+                    <form @submit.prevent="submit">
+                            <button class="p-2 bg-slate-600 rounded-xl">Submit</button>
+                        </form>
+                        <div class="flex justify-start">
+                                <button @click="addToast" class="p-2 bg-slate-600 rounded-xl">add toast</button>
+
+                    </div>
+                </div> -->
+                <!-- <p class="bg-gray-700 rounded-lg w-96 m-auto  text-white">{{ $page.props.flash.greet }}</p> -->
    <div class="p-4  border-gray-200 border-dashed rounded-lg dark:border-gray-700
    ">
    <div class="relative mb-10">
@@ -112,7 +139,7 @@ const getDate = (date) =>
               :href="link.url" 
               class="text-base bg-[#24303f] rounded-md text-right p-1 px-3 mx-1 "
               :class="{'text-[#37475c]' : !link.url, 'bg-[#576479]' : link.active}"></Link>
-        
+
             </div>
     </div>
 

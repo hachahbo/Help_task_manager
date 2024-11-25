@@ -33,19 +33,15 @@ class AuthController extends Controller
                 'password' => Hash::make($validated['password']),
             ]);
 
-            // Login the user
-            Auth::login($user);  // Use the facade correctly
+            Auth::login($user);
 
-            // Commit the transaction if everything is fine
             DB::commit();
 
             // Redirect after successful login
-            return redirect()->route('dashboard')->with('greet', 'welcome to Mytickets');
+            return redirect()->route('dashboard')->with('toast', 'You have successfully registered!');
         } catch (\Exception $e) {
-            // Rollback the transaction if there is an error
             DB::rollBack();
 
-            // Handle errors (optional: for better error handling, you can log the exception)
             return response()->json(['error' => 'An error occurred. Please try again.'], 500);
         }
     }
@@ -60,8 +56,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
     
-            // Redirect to the home page
-            return redirect()->route('dashboard')->with('greet', 'welcome to Mytickets');;
+            return redirect()->route('dashboard')->with('toast', 'Welcom to MyTickets');
         }
     
         return back()->withErrors([
