@@ -10,7 +10,7 @@ const form = useForm({
 const submit = () => {
     form.post(route('login'), {
         onSuccess: () => {
-            console.log('User logged successfully');
+            // console.log('User logged successfully');
             // router.visit('/home');  
         },
         onError: () => form.reset("password") 

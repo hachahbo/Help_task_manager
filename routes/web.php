@@ -5,8 +5,9 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Models\User;
-use app\Models\ticket;
+use App\Models\Ticket;
 use App\Http\Controllers\TicketController;
 
 Route::middleware('guest')->group(function () {
@@ -18,22 +19,48 @@ Route::middleware('guest')->group(function () {
 });
 
 
-
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/users', function (Request $request) {
+        return Inertia::render('Users', [
+            'users' => User::when($request->search, function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })->paginate(8)->withQueryString(),
+            'searchTerm' => $request->search,
+            'can' => [
+                'delete_user' => Auth::user() 
+                    ? Auth::user()->can('delete', User::class) 
+                    : null,
+            ],
+        ]);
+    })->name('users');
     // authorised
-    
+   
     Route::get('/dashboard', function (Request $request) {
+        // Calculate ticket counts
+        $ticketCounts = [
+            'pending' => Ticket::where('status', 'pending')->count(),
+            'in_progress' => Ticket::where('status', 'in_progress')->count(),
+            'solved' => Ticket::where('status', 'solved')->count(),
+        ];
+
+        $tickets = Ticket::when($request->search, function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+        })->paginate(8)->withQueryString();
+
         return Inertia::render('Dashboard', [
             'users' => User::when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             })->paginate(8)->withQueryString(),
-            'searchTerm' =>$request->search,
-            
+            'searchTerm' => $request->search,
             'can' => [
-            'delete_user' => Auth::user() 
-            ? Auth::user()->can('delete', User::class) 
-            : null,
+                'delete_user' => Auth::user() 
+                    ? Auth::user()->can('delete', User::class) 
+                    : null,
             ],
+            'ticketCounts' => $ticketCounts,
+            'tickets' => $tickets, // Pass tickets to the view
         ]);
     })->name('dashboard');
     
@@ -52,6 +79,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/test', function () {
         return redirect()->back()->with('toast', 'Toast endpoint!');
     });
+    //admin routes
+    // web.php
+        Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
+
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 });
 

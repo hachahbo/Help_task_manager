@@ -12,6 +12,6 @@ class UserPolicy
     public function delete(User $user)
     {
         // admin --> HamzaAdmin
-        return $user->email === 'HamzaAdmin@gmail.com'; 
+        return $user->email === 'admin@gmail.com'; 
     }
 }

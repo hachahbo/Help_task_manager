@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         // Validate 
-        // dd($request->all());
+        // dd($request->all);
         $validated = $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users'],
@@ -55,8 +55,9 @@ class AuthController extends Controller
     
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-    
-            return redirect()->route('dashboard')->with('toast', 'Welcom to MyTickets');
+            // dd("here");
+
+            return redirect()->route('dashboard')->with('toast', 'You have successfully logged in');
         }
     
         return back()->withErrors([

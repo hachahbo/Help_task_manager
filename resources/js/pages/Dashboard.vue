@@ -11,6 +11,8 @@ defineProps(
         users:Object,
         searchTerm: String,
         can: Object,
+        ticketCounts: Object,
+        tickets: Object,   
     }
 );
 const getDate = (date) =>
@@ -39,6 +41,10 @@ function addToast()
 }
 const page = usePage()
     console.log(page.props.toast);
+toast.add( 
+    {
+            message: page.props.toast
+        })
 </script>
 <template>
     <div>
@@ -74,7 +80,7 @@ const page = usePage()
        <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
            <div class="gap-6">
                 <p class=" text-lg text-left " >Pending</p>
-                <h1 class="mt-1" >45 <span class="text-base text-gray-400">Tickets</span></h1>
+                <h1 class="mt-1" > {{ ticketCounts.pending }} <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1 rounded-full">
                 <svg fill="white" class="w-6 h-6"
@@ -85,7 +91,7 @@ const page = usePage()
         <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
             <div class="gap-6">
                 <p class=" text-lg text-left" >In progress</p>
-                <h1 class="mt-1">20 <span class="text-base text-gray-400">Tickets</span></h1>
+                <h1 class="mt-1">{{ ticketCounts.in_progress }} <span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1 rounded-full">
                 <svg fill="#ffffff" class="w-6 h-6"  version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 86.285 86.285" xml:space="preserve" stroke="#ffffff">
@@ -98,7 +104,7 @@ const page = usePage()
         <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
             <div class="gap-6">
                 <p class=" text-lg text-left" >Resolved</p>
-                <h1 class="mt-1" >11 <span class="text-base text-gray-400">Tickets</span></h1>
+                <h1 class="mt-1" >{{ ticketCounts.solved }}<span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1.5 rounded-full">
                 <svg fill="#ffffff"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 72 72" enable-background="new 0 0 72 72" xml:space="preserve" stroke="#ffffff">
@@ -111,40 +117,8 @@ const page = usePage()
 
     </div>
         
-    <div class="">
-            <div class="flex justify-end mb-2 ">
-                    <input type="search" v-model="search" class="h-8 w-[200px]" placeholder="Search"></input>
-            </div>
-        <table class="">
-            <thead>
-                <tr class="text-white font-extrabold bg-[#1d2631] shadow-lg">
-                    <th>Avatar</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th v-if="can.delete_user">Delete</th>
-                </tr>
-            </thead>
-            <tbody class="bg-[#24303f]">
-                <tr class=" hover:text-gray-500 hover:rounded-lg " v-for="user in users.data" :key="user.id">
-                    <th><img class="w-12 h-12 rounded-full mr-3 " src="./Frame.png" alt="Neil image"></th>
-                    <th >{{user.name}}</th>
-                    <th>{{user.email}}</th>
-                    <th v-if="can.delete_user"><button>delete</button></th>
-                </tr>
-            </tbody>
-        </table>
-        <div class="flex w-full  justify-end items-end ">
-            <Link v-for="link in users.links" :key="link.label"
-              v-html="link.label"
-              :href="link.url" 
-              class="text-base bg-[#24303f] rounded-md text-right p-1 px-3 mx-1 "
-              :class="{'text-[#37475c]' : !link.url, 'bg-[#576479]' : link.active}"></Link>
 
-            </div>
-    </div>
-
-
-    <!-- <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
+    <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
           <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
                 <div class="border  border-white w-full border-b-0 ">
                 </div>
@@ -227,6 +201,69 @@ const page = usePage()
                                 </p>
                             </div>
                             <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
+                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
+                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
+                            </div>
+
+                        </div>
+                    </li>
+                    
+                    <li class="py-3 sm:py-4">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                            </div>
+                            <div>
+                                <p class="text-sm text-left font-medium truncate text-white">
+                                    Neil Sims
+                                </p>
+                                <p class="text-xs text-gray-300 truncate">
+                                    email@windster.com
+                                </p>
+                            </div>
+                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
                                 <h1 class=" bg-gray-500 p-1 px-2   rounded-lg ">In progress</h1>
                                 <button class="bg-yellow p-1 px-2 px-2  bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
                             </div>
@@ -234,7 +271,7 @@ const page = usePage()
                         </div>
                     </li>     
                 </ul>
-    </div> -->
+    </div>
         </div>
     </div>
 </h1>

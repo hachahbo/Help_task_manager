@@ -40,7 +40,6 @@ class TicketController extends Controller
             'status' => 'pending',
         ]);
         // Ticket::create($request->all());
-
         return redirect()->route('tickets.index')->with('toast', 'Ticket created successfully!');
     }
 
