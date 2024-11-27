@@ -9,6 +9,8 @@ use App\Http\Controllers\AdminController;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\InboxController;
+
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/', 'Home')->name('home');
@@ -37,32 +39,43 @@ Route::middleware(['auth'])->group(function () {
     // authorised
    
     Route::get('/dashboard', function (Request $request) {
-        // Calculate ticket counts
-        $ticketCounts = [
-            'pending' => Ticket::where('status', 'pending')->count(),
-            'in_progress' => Ticket::where('status', 'in_progress')->count(),
-            'solved' => Ticket::where('status', 'solved')->count(),
-        ];
-
-        $tickets = Ticket::when($request->search, function ($query) use ($request) {
+        $user = Auth::user();
+    
+        // Filter tickets based on the user's role
+        $ticketsQuery = Ticket::query();
+        if ($user->role === 'user') {
+            $ticketsQuery->where('submitter_id', $user->id);
+        }
+    
+        // Apply search filter
+        $tickets = $ticketsQuery->when($request->search, function ($query) use ($request) {
             $query->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
         })->paginate(8)->withQueryString();
-
+    
+        $ticketCounts = [
+            'pending' => Ticket::where('status', 'pending')->when($user->role === 'user', function ($query) use ($user) {
+                $query->where('submitter_id', $user->id);
+            })->count(),
+            
+            'in_progress' => Ticket::where('status', 'in_progress')->when($user->role === 'user', function ($query) use ($user) {
+                $query->where('submitter_id', $user->id);
+            })->count(),
+            
+            'solved' => Ticket::where('status', 'solved')->when($user->role === 'user', function ($query) use ($user) {
+                $query->where('submitter_id', $user->id);
+            })->count(),
+        ];
+    
+        // Return the data to the Inertia view
         return Inertia::render('Dashboard', [
-            'users' => User::when($request->search, function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
-            })->paginate(8)->withQueryString(),
-            'searchTerm' => $request->search,
-            'can' => [
-                'delete_user' => Auth::user() 
-                    ? Auth::user()->can('delete', User::class) 
-                    : null,
-            ],
             'ticketCounts' => $ticketCounts,
             'tickets' => $tickets, // Pass tickets to the view
         ]);
     })->name('dashboard');
+
+    Route::get('/inbox', [InboxController::class, 'index'])->name('inbox');
+
     
     Route::inertia('/settings', 'Settings')->name('settings');
     
@@ -73,17 +86,21 @@ Route::middleware(['auth'])->group(function () {
     // Route to handle form submission
     Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('tickets.destroy');
+    Route::put('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])
+    ->middleware('auth')
+    ->name('tickets.updateStatus');
     // 
 
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
     Route::post('/test', function () {
         return redirect()->back()->with('toast', 'Toast endpoint!');
     });
-    //admin routes
-    // web.php
-        Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
 
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    //admin routes 
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
+    Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
+
 
 });
 

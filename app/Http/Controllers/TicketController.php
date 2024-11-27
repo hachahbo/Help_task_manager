@@ -45,7 +45,13 @@ class TicketController extends Controller
 
     public function index()
     {
-        $tickets = Ticket::all();
+        // Check user role
+        if (Auth::user()->role === 'admin' || Auth::user()->role === 'technicien') {
+            $tickets = Ticket::all();
+        } else {
+            $tickets = Ticket::where('submitter_id', Auth::id())->get();
+        }
+
         return Inertia::render('Tickets/Index', [
             'tickets' => $tickets,
         ]);
@@ -63,4 +69,17 @@ class TicketController extends Controller
             'ticket' => $ticket,
         ]);
     }
+    public function updateStatus(Request $request, $ticket)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,in_progress,solved',
+        ]);
+        
+        $ticket = Ticket::findOrFail($ticket);
+        // dd($request->status, $ticket->status);
+        $ticket->status = $request->status;
+        $ticket->save();
+        return back()->with('success', 'Ticket status updated successfully.');
+    }
+
 }

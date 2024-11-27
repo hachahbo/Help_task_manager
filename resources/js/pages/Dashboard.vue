@@ -39,12 +39,9 @@ function addToast()
         }
     )
 }
-const page = usePage()
-    console.log(page.props.toast);
-toast.add( 
-    {
-            message: page.props.toast
-        })
+// addToast()
+// console.log(ticketCounts)
+// console.log(ticketCounts);
 </script>
 <template>
     <div>
@@ -92,7 +89,7 @@ toast.add(
             <div class="gap-6">
                 <p class=" text-lg text-left" >In progress</p>
                 <h1 class="mt-1">{{ ticketCounts.in_progress }} <span class="text-base text-gray-400">Tickets</span></h1>
-            </div> 
+            </div>
             <div class="bg-[#313d4a] p-1 rounded-full">
                 <svg fill="#ffffff" class="w-6 h-6"  version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 86.285 86.285" xml:space="preserve" stroke="#ffffff">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
@@ -103,7 +100,7 @@ toast.add(
         </div>
         <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
             <div class="gap-6">
-                <p class=" text-lg text-left" >Resolved</p>
+                <p class=" text-lg text-left" >solved</p>
                 <h1 class="mt-1" >{{ ticketCounts.solved }}<span class="text-base text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1.5 rounded-full">
@@ -116,164 +113,70 @@ toast.add(
         </div>
 
     </div>
-        
-
-    <div class="flex items-start flex-col p-4 px-10  justify-center h-full mb-4 rounded bg-[#24303f] dark:bg-gray-800">
-          <h3 class="text-xl font-bold leading-none mb-4 text-white">Last 5 Tickets status</h3>
-                <div class="border  border-white w-full border-b-0 ">
-                </div>
-                <ul class=" w-full">
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-green-500 p-1 rounded-lg ">solved</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2 rounded-lg ">Pending</h1>
-                                <button class="bg-yellow p-1 px-2 bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>
-                    
-                    <li class="py-3 sm:py-4">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="w-8 h-8 rounded-full mr-3" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                            </div>
-                            <div>
-                                <p class="text-sm text-left font-medium truncate text-white">
-                                    Neil Sims
-                                </p>
-                                <p class="text-xs text-gray-300 truncate">
-                                    email@windster.com
-                                </p>
-                            </div>
-                            <div class="ml-auto text-sm font-semibold text-white flex gap-2">
-                                <h1 class=" bg-gray-500 p-1 px-2   rounded-lg ">In progress</h1>
-                                <button class="bg-yellow p-1 px-2 px-2  bg-gray-700 rounded-lg hover:bg-gray-500">Details</button>
-                            </div>
-
-                        </div>
-                    </li>     
-                </ul>
-    </div>
+        <div class="p-4 px-10 bg-[#24303f] dark:bg-gray-800 rounded">
+            <h3 class="text-xl font-bold mb-4 text-white">Tickets Overview</h3>
+                <div class="border mb-4"></div>
+                    <ul class="w-full ">
+        <!-- Loop through tickets -->
+        <li
+    v-for="ticket in tickets.data"
+    :key="ticket.id"
+    class="py-3 sm:py-4 grid grid-cols-3 items-center w-full  last:border-none"
+>
+    <!-- Left: Submitter Avatar and Details -->
+    <div class="flex items-center">
+        <img
+            class="w-8 h-8  rounded-full mr-3"
+            src="./Frame.png"
+        />
+        <div>
+            <p class="text-sm font-medium truncate text-white">
+                {{ ticket.submitter }}
+            </p>
+            <p class="text-xs text-gray-300 truncate">{{ ticket.submitter_email }}</p>
         </div>
     </div>
-</h1>
+
+    <!-- Center: Ticket Title and Category -->
+    <div class="flex flex-col justify-center items-center">
+        <p class="text-sm truncate text-white font-semibold">
+            {{ ticket.title }}
+        </p>
+        <p class="text-xs text-gray-400 truncate">{{ ticket.category }}</p>
+    </div>
+
+    <!-- Right: Priority and Status -->
+    <div class="flex items-center gap-2 justify-end">
+        <!-- Priority Badge -->
+        <div>
+            <span
+                class="text-sm font-semibold flex p-1 px-2 rounded-lg bg-gray-700">
+                {{ ticket.priority }}
+            </span>
+        </div>
+        <!-- Status Badge -->
+        <span
+            class="text-sm font-semibold p-1 px-2 rounded-lg"
+            :class="{
+                'bg-green-500': ticket.status === 'solved',
+                'bg-gray-500': ticket.status === 'pending',
+                'bg-gray-800': ticket.status === 'in_progress',
+            }"
+        >
+            {{ ticket.status }}
+        </span>
+    </div>
+</li>
+
+                    <!-- Display if no tickets are found -->
+                    <li v-if="!tickets.data.length" class="py-3 text-center text-gray-400">
+                        No tickets found.
+                    </li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </h1>
 </div>
+
 </template>

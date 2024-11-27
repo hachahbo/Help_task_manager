@@ -53,13 +53,13 @@
         @apply text-xs text-red-500 mt-1;
     }
     table {
-        @apply w-full text-sm text-left rounded-md shadow-lg overflow-hidden mb-6 table-auto ;
+        @apply  w-full text-sm text-left rounded-md shadow-lg overflow-hidden mb-6 table-auto ;
     }
     thead {
-        @apply text-xs uppercase font-medium text-slate-600;
+        @apply text-xs uppercase font-medium text-slate-200;
     }
     tbody tr {
-        @apply hover:bg-slate-100 w-full p-0;
+        @apply  text-white w-full p-0;
     }
     th {
         @apply px-6 py-4;

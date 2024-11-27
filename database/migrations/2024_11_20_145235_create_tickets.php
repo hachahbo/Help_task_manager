@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // Ticket ID
             $table->string('title'); // Ticket title
             $table->text('description')->nullable(); // Ticket description
-            $table->enum('status', ['in_progress', 'pending', 'resolved',])->default('in_progress'); // Status
+            $table->enum('status', ['pending', 'in_progress', 'resolved', 'solved'])->default('pending');
             $table->enum('priority', ['low', 'medium', 'high', 'critical'])->default('low'); // Priority
             $table->enum('category', ['bug', 'feature_request', 'support'])->default('bug');
             $table->string('submitter')->default("dafault"); // Replace 1 with the desired default value

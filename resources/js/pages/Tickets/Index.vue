@@ -24,16 +24,53 @@
           <p class ="text-sm text-gray-400"><span class="text-white">Description</span>: {{ ticket.description || 'N/A' }}</p>
           <button
           @click="deleteTicket(ticket.id)"
-          class="bg-red-500 m-2 text-white text-sm px-3 py-1 rounded hover:bg-red-600"
+          class="bg-red-500 m-2 text-white text-sm px-3 py-1.5 rounded hover:bg-red-600"
         >
           Delete
         </button>
         <Link
-                :href="`/tickets/${ticket.id}`"
-                class="bg-gray-600  text-white text-sm px-3 py-1.5 rounded hover:bg-gray-700"
+        :href="`/tickets/${ticket.id}`"
+        class="bg-gray-600 inline-block  text-white text-sm px-3 py-1.5 rounded hover:bg-gray-700"
+        >
+        View Details
+    </Link >
+    <!--  -->
+            <div v-if="!ticket.isEditing" class="ml-2  inline-block items-center">
+            <span class="bg-gray-700 text-white text-sm px-3 py-2 rounded">
+                {{ ticket.status }}
+            </span>
+            <button
+                v-if="$page.props.auth.user.role !== 'user'"
+                @click="enableEdit(ticket)"
+                class="bg-blue-500 text-white text-sm px-3 py-1.5 rounded ml-2 hover:bg-blue-600"
             >
-                View Details
-        </Link>
+                Edit
+            </button>
+        </div>
+
+        <!-- Status Edit -->
+        <div v-else class="flex items-center">
+            <select
+                v-model="ticket.updatedStatus"
+                class="p-2 border bg-gray-700 rounded-md"
+            >
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="solved">Solved</option>
+            </select>
+            <button
+                @click="updateStatus(ticket)"
+                class="bg-blue-500 text-white text-sm px-3 py-1 rounded ml-2 hover:bg-blue-600"
+            >
+                Save
+            </button>
+            <button
+                @click="cancelEdit(ticket)"
+                class="bg-gray-500 text-white text-sm px-3 py-1 rounded ml-2 hover:bg-gray-700"
+            >
+                Cancel
+            </button>
+</div>
         </div>
         <div class=" flex items-center ">
               <svg fill="#ffffff"  class="w-16 h-16  text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -88,11 +125,20 @@
 </template>
 
 <script>
-import { useForm, router } from '@inertiajs/vue3';
+    import { router } from "@inertiajs/vue3";
 
 export default {
     props: {
         tickets: Array,
+    },
+    data() {
+        return {
+            tickets: this.tickets.map(ticket => ({
+                ...ticket,
+                isEditing: false,
+                updatedStatus: ticket.status,
+            })),
+        };
     },
     methods: {
         viewDetails(ticketId) {
@@ -110,6 +156,36 @@ export default {
                     },
                 });
             }
+        },
+        enableEdit(ticket) {
+            ticket.isEditing = true;
+        },
+        cancelEdit(ticket) {
+            ticket.isEditing = false;
+            ticket.updatedStatus = ticket.status;
+        },
+        updateStatus(ticket) {
+        // Use `router.put` to send the PUT request
+        router.put(`/tickets/${ticket.id}/status`, 
+            { status: ticket.updatedStatus }, 
+            {
+                onSuccess: () => {
+                    // Update local state on success
+                    ticket.status = ticket.updatedStatus;
+                    ticket.isEditing = false;
+
+                    // Optional: Show success message
+                    this.$toast.success('Status updated successfully.');
+                },
+                onError: (errors) => {
+                    // Handle validation errors if any
+                    console.error("Validation errors:", errors);
+
+                    // Optional: Show error message
+                    this.$toast.error('Failed to update status. Please try again.');
+                },
+            }
+        );
         },
     },
 };

@@ -19,7 +19,7 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         
         $request->validate([
-            'role' => 'required|in:admin,user',
+            'role' => 'required|in:admin,user,technicien',
         ]);
 
         $user->role = $request->role;
@@ -27,4 +27,25 @@ class AdminController extends Controller
 
         return back()->with('toast', 'Role updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        // Check if the authenticated user is an admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Prevent an admin from deleting themselves
+        if (Auth::id() == $id) {
+            return back()->withErrors(['error' => 'You cannot delete your own account.']);
+        }
+
+        $user = User::findOrFail($id);
+
+        // Delete the user
+        $user->delete();
+
+        return back()->with('toast', 'User deleted successfully.');
+    }
+
 }
