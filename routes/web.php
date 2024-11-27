@@ -101,6 +101,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 
+    // comments
+    Route::get('/tickets/{ticketId}/comments', [TicketController::class, 'getComments']);
+    Route::put('/tickets/{ticket}/comments', [TicketController::class, 'addComment'])->name('tickets.addComment');
+
 
 });
 

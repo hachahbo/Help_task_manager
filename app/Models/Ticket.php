@@ -48,5 +48,10 @@ class Ticket extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    // Ticket.php
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
     
 }

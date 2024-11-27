@@ -211,7 +211,7 @@ import ToastList from '../pages/Components/ToastList.vue';
                                     </g>
                                 </g>
                             </svg>
-                            <Link class="ml-2" :href="route('dashboard')">Tickets</Link>
+                            <Link class="ml-2" :href="route('tickets.index')">Tickets</Link>
                         </Link>
                         </li>
 
