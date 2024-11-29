@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$page.props.auth.user" class="max-w-4xl mx-auto bg-[#24303f] p-5 rounded sm:ml-64">
+  <div v-if="$page.props.auth.user" class="max-w-4xl mx-auto bg-[#24303f] p-5 rounded lg:ml-64">
       <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-semibold text-white">Tickets</h1>
 
@@ -149,7 +149,8 @@ export default {
                 router.delete(route('tickets.destroy', ticketId), {
                     onSuccess: () => {
                         console.log('Ticket deleted successfully');
-
+                        // Assuming `tickets` is the array holding the ticket list
+                        this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
                     },
                     onError: () => {
                         console.log('Failed to delete ticket');

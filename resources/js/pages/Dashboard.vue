@@ -39,14 +39,12 @@ function addToast()
         }
     )
 }
-// addToast()
-// console.log(ticketCounts)
-// console.log(ticketCounts);
+
 </script>
 <template>
     <div>
         <h1 class="title"> 
-            <div class="p-4 sm:ml-64">
+            <div class="p-4 lg:ml-64">
                 <!-- <div class="flex justify-start">
                     <form @submit.prevent="submit">
                             <button class="p-2 bg-slate-600 rounded-xl">Submit</button>
@@ -101,7 +99,7 @@ function addToast()
         <div class="flex items-center justify-center gap-4 h-24 rounded bg-[#24303f] dark:bg-gray-800">
             <div class="gap-6">
                 <p class=" text-lg text-left" >solved</p>
-                <h1 class="mt-1" >{{ ticketCounts.solved }}<span class="text-base text-gray-400">Tickets</span></h1>
+                <h1 class="mt-1" >{{ ticketCounts.solved }}<span class="text-base  ml-2 text-gray-400">Tickets</span></h1>
             </div> 
             <div class="bg-[#313d4a] p-1.5 rounded-full">
                 <svg fill="#ffffff"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 72 72" enable-background="new 0 0 72 72" xml:space="preserve" stroke="#ffffff">
@@ -119,9 +117,9 @@ function addToast()
                     <ul class="w-full ">
         <!-- Loop through tickets -->
         <li
-    v-for="ticket in tickets.data"
+    v-for="ticket in [...tickets.data].reverse()"
     :key="ticket.id"
-    class="py-3 sm:py-4 grid grid-cols-3 items-center w-full  last:border-none"
+    class="py-3 lg:py-4 grid grid-cols-3 items-center w-full  last:border-none"
 >
     <!-- Left: Submitter Avatar and Details -->
     <div class="flex items-center">

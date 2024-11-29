@@ -62,7 +62,7 @@ const form = useForm({});
 </script>
 
 <template>
-    <div class="sm:ml-28">
+    <div class="lg:ml-64  xl:ml-48 2xl:ml-28">
         <h1 class="title"> 
             <div class="p-4 ">
                 <div class="flex justify-end mb-2 ">

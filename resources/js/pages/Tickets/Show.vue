@@ -73,7 +73,7 @@ export default {
 </script> -->
 
 <template>
-  <div class="p-6 sm:ml-64 bg-gray-800 text-white rounded">
+  <div class="p-6 lg:ml-64 bg-gray-800 text-white rounded">
     <!-- Ticket Details -->
     <div class="flex mb-4 items-end gap-1">
       <h2 class="text-2xl font-semibold">{{ ticket.title }}
@@ -96,21 +96,44 @@ export default {
 
     <!-- Comments Section -->
     <div class="comments-section mt-4">
-      <h3 class="text-lg text-white font-semibold">Comments</h3>
+  <h3 class="text-lg text-white font-semibold">Comments</h3>
 
-      <div v-for="comment in ticket.comments" :key="comment.id" class="comment bg-gray-700 p-3 rounded-md mt-2">
-        <p class="text-base font-semibold text-white">{{ comment.user.name }} 
-        <span class="text-gray-400 text-xs">{{ getDate(comment.created_at) }}</span></p>
-        <p class="text-sm ml-2 text-white">{{ comment.comment }}</p>
-      </div>
-
-      <!-- Add Comment Form -->
-      <div >
-        <textarea v-model="newComment" placeholder="Add a comment..." class="comment-input mt-3 p-2 w-full bg-gray-800 text-white border rounded-md"></textarea>
-        <button @click="submitComment(ticket.id)" class="btn-submit mt-2 p-2 bg-blue-500 text-white rounded-md">Submit</button>
-      </div>
+  <!-- Scrollable Comments Container -->
+  <div 
+    class="comments-container overflow-auto bg-[#1A222C] p-4 space-y-3  rounded-md"
+    :style="{ maxHeight: '550px' }"
+  >
+    <div v-for="comment in ticket.comments" :key="comment.id" class="comment  bg-gray-700 p-3 rounded-md">
+      <p class="text-base font-semibold text-white">
+        {{ comment.user.name }}
+        <span class="text-gray-400 text-xs">{{ getDate(comment.created_at) }}</span>
+      </p>
+      <p class="text-sm ml-2 text-white">{{ comment.comment }}</p>
     </div>
+    <p v-if="!ticket.comments.length" class="py-3 text-center text-gray-400">
+           add comments
+                    </p>
   </div>
+
+  <!-- Add Comment Form -->
+  <div class="add-comment mt-4">
+    <textarea
+      v-model="newComment"
+      placeholder="Add a comment..."
+      class="comment-input mt-3 p-2 w-full bg-gray-800  text-white border rounded-md"
+    ></textarea>
+    <Link preserve-scroll>
+      <button
+        @click="submitComment(ticket.id)"
+        class="btn-submit mt-2 p-2 bg-blue-500 text-white rounded-md"
+      >
+        Submit
+      </button>
+    </Link>
+  </div>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -159,7 +182,6 @@ export default {
 .comment-input {
   width: 100%;
   height: 80px;
-  background-color: #333;
   color: white;
   border: 1px solid #555;
 }

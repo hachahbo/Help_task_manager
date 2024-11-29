@@ -60,7 +60,7 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         $ticket->delete();
-        return redirect()->route('tickets.index')->with('toast', 'Ticket deleted successfully');
+        return back()->with('toast', 'Ticket deleted successfully');
     }
 
     public function show(Ticket $ticket)

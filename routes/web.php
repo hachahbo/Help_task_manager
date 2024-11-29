@@ -77,8 +77,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inbox', [InboxController::class, 'index'])->name('inbox');
 
     
-    Route::inertia('/settings', 'Settings')->name('settings');
-    
+    Route::get('/settings', function (Request $request) {
+        return Inertia::render('Users', [
+            'users' => User::when($request->search, function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })->paginate(8)->withQueryString(),
+            'searchTerm' => $request->search,
+            'can' => [
+                'delete_user' => Auth::user() 
+                    ? Auth::user()->can('delete', User::class) 
+                    : null,
+            ],
+        ]);
+    })->name('settings');    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); 
 
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
@@ -104,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
     // comments
     Route::get('/tickets/{ticketId}/comments', [TicketController::class, 'getComments']);
     Route::put('/tickets/{ticket}/comments', [TicketController::class, 'addComment'])->name('tickets.addComment');
+    Route::get('/inbox', [InboxController::class, 'inbox'])->name('inbox');
 
 
 });

@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-2xl mx-auto bg-[#24303f] p-5 rounded sm:ml-64">
+    <div class="max-w-2xl mx-auto bg-[#24303f] p-5 mt-10 rounded lg:ml-64">
         <h1 class="text-xl font-semibold text-white mb-4">Create Ticket</h1>
         <form @submit.prevent="submit">
             <div class="mb-4">
