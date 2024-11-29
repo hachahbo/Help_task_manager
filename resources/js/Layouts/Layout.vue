@@ -273,7 +273,7 @@ import ToastList from '../pages/Components/ToastList.vue';
                             <Link :href="route('users')" class="flex-1 ms-3 whitespace-nowrap">Users</Link>
                         </Link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <Link :href="route('settings')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
                                 <svg  class=" fill-gray-500 group-hover:fill-gray-900 text-gray-500 transition duration-75" height="23px" width="23px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                 viewBox="0 0 611.999 611.999" xml:space="preserve">
@@ -298,7 +298,7 @@ import ToastList from '../pages/Components/ToastList.vue';
                             </svg>
                             <Link class="ml-2" :href="route('settings')">Technicien</Link>
                         </Link>
-                        </li>
+                        </li> -->
                         <li>
                             <Link method="post" :href="route('logout')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
                                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">

@@ -20,17 +20,15 @@ class InboxController extends Controller
         // Fetch the IDs of tickets where the user is the submitter
         $ticketIds = Ticket::where('submitter_id', $user->id)->pluck('id');
 
-        // Fetch all comments for the user's tickets excluding the user's own comments
         $comments = Comment::with(['ticket:id,title,priority', 'user:id,name,email'])
-            ->select('id', 'ticket_id', 'user_id', 'comment', 'created_at') // Select necessary fields
+            ->select('id', 'ticket_id', 'user_id', 'comment', 'created_at') 
             ->whereIn('ticket_id', $ticketIds)
-            ->where('user_id', '!=', $user->id) // Exclude comments by the current user
-            ->orderBy('ticket_id') // Order by ticket_id to group comments by ticket
-            ->orderBy('created_at', 'desc') // Order by created_at to get the latest comment first
+            ->where('user_id', '!=', $user->id) 
+            ->orderBy('ticket_id')
+            ->orderBy('created_at', 'desc') 
             ->get()
-            ->groupBy('ticket_id') // Group comments by ticket_id
+            ->groupBy('ticket_id') 
             ->map(function ($ticketComments) {
-                // For each ticket, get the latest comment (first one after ordering by created_at desc)
                 return $ticketComments->first();
             })
             ->values(); // Reset the keys after mapping to get an indexed collection

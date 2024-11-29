@@ -93,7 +93,7 @@
         <!-- Comments -->
         <div class="bg-gray-800 text-white mb-6 px-2 py-2  rounded-xl"> 
         <div
-            v-for="comment in comments"
+            v-for="comment in comments.slice().reverse()"
             :key="comment.id"
             class="comment-item  p-1 rounded-lg cursor-pointer"
         >

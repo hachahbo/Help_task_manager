@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', function (Request $request) {
-        return Inertia::render('Users', [
+        return Inertia::render('users', [
             'users' => User::when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             })->paginate(8)->withQueryString(),
@@ -78,10 +78,10 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::get('/settings', function (Request $request) {
-        return Inertia::render('Users', [
+        return Inertia::render('users', [
             'users' => User::when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
-            })->paginate(8)->withQueryString(),
+            })->where('role', 'technicien')->paginate(8)->withQueryString(),
             'searchTerm' => $request->search,
             'can' => [
                 'delete_user' => Auth::user() 
