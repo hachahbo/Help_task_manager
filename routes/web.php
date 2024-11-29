@@ -24,6 +24,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', function (Request $request) {
+        if(Auth::user()->role !== 'admin')
+        return redirect()->route('dashboard')->with('toast', 'error');
         return Inertia::render('users', [
             'users' => User::when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
@@ -78,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::get('/settings', function (Request $request) {
+
         return Inertia::render('users', [
             'users' => User::when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
@@ -108,15 +111,19 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //admin routes 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
-    Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
-
+    
     // comments
     Route::get('/tickets/{ticketId}/comments', [TicketController::class, 'getComments']);
     Route::put('/tickets/{ticket}/comments', [TicketController::class, 'addComment'])->name('tickets.addComment');
     Route::get('/inbox', [InboxController::class, 'inbox'])->name('inbox');
+    
+    
+});
 
-
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Admin routes
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
+    Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 });
 
