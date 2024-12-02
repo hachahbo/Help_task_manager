@@ -110,7 +110,6 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->back()->with('toast', 'Toast endpoint!');
     });
 
-    //admin routes 
     
     // comments
     Route::get('/tickets/{ticketId}/comments', [TicketController::class, 'getComments']);
@@ -118,12 +117,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inbox', [InboxController::class, 'inbox'])->name('inbox');
     
     
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Admin routes
+    //admin routes 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
+    
+    
 });
+
 
