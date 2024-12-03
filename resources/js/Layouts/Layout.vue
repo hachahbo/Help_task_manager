@@ -65,14 +65,18 @@
 
             </Link>
                 </div>
-                <div v-if="$page.props.auth.user">
-                    <Link method="post" :href="route('logout')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
-                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
-                        </svg>
-                        <Link class="ml-2 font-semibold"  method="post" :href="route('logout')">Logout</Link>
-                    </Link>
-                    <ProfileOverView></ProfileOverView>
+                <div v-if="$page.props.auth.user" class="flex items-center">
+                    <div>
+                        <ProfileOverView></ProfileOverView>
+                    </div>
+                    <!-- <div>
+                        <Link method="post" :href="route('logout')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
+                            <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                            </svg>
+                            <Link class="ml-2 font-semibold"  method="post" :href="route('logout')">Logout</Link>
+                        </Link>
+                    </div> -->
                 </div>
                 <div v-else  class="space-x-6 ">
                     <Link class="nav-link" :href="route('register')">Register</Link>
