@@ -48,7 +48,13 @@ class TicketController extends Controller
     {
         // Check user role
         if (Auth::user()->role === 'admin' || Auth::user()->role === 'technicien') {
-            $tickets = Ticket::all();
+            if (Auth::user()->role === 'technicien') {
+                // Get tickets that match the technician's category
+                $tickets = Ticket::where('category', Auth::user()->techgategory)->get();
+            } else {
+                // Admin sees all tickets
+                $tickets = Ticket::all();
+            }
         } else {
             $tickets = Ticket::where('submitter_id', Auth::id())->get();
         }

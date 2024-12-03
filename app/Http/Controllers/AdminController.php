@@ -47,5 +47,30 @@ class AdminController extends Controller
 
         return back()->with('toast', 'User deleted successfully.');
     }
+    public function techniciencontroller()
+    {
+        // Get all users with 'technicien' role, with pagination
+        $users = User::where('role', 'technicien')->paginate(8);
+
+        // Return the Inertia view with the users
+        return Inertia::render('Technicien', [
+            'users' => $users,
+        ]);
+    }
+
+    public function updateTechCategory(Request $request, $id)
+    {
+        $request->validate([
+            'techcategory' => 'required|string|max:255',
+        ]);
+        
+        $user = User::findOrFail($id);
+        $user->techgategory = $request->techcategory;
+        $user->save();
+        // dd('here');
+        // dd($user->techgategory, $request->techgategory);
+
+        return back()->with('toast',  'TechCategory updated successfully.');
+    }
 
 }

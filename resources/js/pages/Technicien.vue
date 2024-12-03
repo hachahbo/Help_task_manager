@@ -1,66 +1,3 @@
-<script setup>
-    import { ref, watch } from "vue";
-    import { router } from "@inertiajs/vue3";
-    import { useForm } from '@inertiajs/vue3';
-    import { debounce } from "lodash";
-    import { usePage } from '@inertiajs/vue3';
-
-    // Props definition
-    defineProps({
-        users: Object,
-        searchTerm: String,
-        can: Object,
-    });
-
-    const search = ref("");
-    watch(search, debounce((q) => router.get('/users', { search: q }, { preserveState: true }), 500));
-    
-    
-
-    function enableEdit(user) {
-    user.isEditing = true; // Enable editing mode
-    user.showDelete = true; // Show the delete button
-    user.updatedRole = user.role; // Initialize with current role
-}
-
-function cancelEdit(user) {
-    user.isEditing = false; // Disable editing mode
-    user.showDelete = false; // Hide delete button
-    user.updatedRole = user.role; // Revert to the original role
-}
-
-const deleteUser = (user) => {
-    if (confirm(`Are you sure you want to delete user ${user.name}?`)) {
-        router.delete(`/users/${user.id}`, {
-            onSuccess: () => {
-                alert('User deleted successfully.');
-            },
-            onError: (errors) => {
-                console.error(errors);
-            },
-        });
-    }
-};
-
-const form = useForm({});
-    // Function to handle the role change confirmation
-    const confirmRoleChange = (user) => {
-        if (!user.updatedRole) {
-            alert('Please select a role before confirming.');
-            return;
-        }
-
-        // Send the role update to the backend using Inertia.js
-        router.put(`/users/${user.id}/update-role`, { role: user.updatedRole }, {
-            onSuccess: () => {
-            },
-            onError: (errors) => {
-                console.error(errors);
-            },
-        });
-    };
-</script>
-
 <template>
     <div class="lg:ml-64  xl:ml-48 2xl:ml-28">
         <h1 class="title"> 
@@ -75,7 +12,7 @@ const form = useForm({});
                             <th>Avatar</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th>Category</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -92,17 +29,17 @@ const form = useForm({});
         <template v-if="user.isEditing">
             <!-- Role Selection -->
             <select
-                v-model="user.updatedRole"
+                v-model="user.updatedTechCategory"
                 class="mt-2 block p-2 w-36 text-white bg-[#1d2a39] rounded-md shadow-sm"
             >
-                <option value="admin">Admin</option>
-                <option value="technicien">Technicien</option>
-                <option value="user">User</option>
+                <option value="bug">Bug</option>
+                <option value="support">Support</option>
+                <option value="feature_request">Feature Request</option>
             </select>
             
             <!-- Confirm Role Change -->
             <button
-                @click="confirmRoleChange(user)"
+                @click="confirmTechCategoryChange(user)"
                 class="bg-blue-500 mt-2 mr-1 text-white px-3 py-1 rounded-md shadow-sm hover:bg-blue-700"
             >
                 Confirm
@@ -119,7 +56,7 @@ const form = useForm({});
         </template> 
         <!-- Edit Button (shown when not editing) -->
         <div v-else>
-            {{user.role}}
+            {{user.techgategory}}
     </div>
     </div>
 </td>
@@ -128,21 +65,14 @@ const form = useForm({});
         <button v-if=" !user.isEditing " @click="enableEdit(user)" class="bg-gray-600 text-white px-3 py-1 rounded-md shadow-sm hover:bg-blue-700">
             Edit
         </button>
-        <button v-else-if="user.isEditing"
+        <!-- <button v-else-if="user.isEditing"
                     @click="deleteUser(user)"
                     class="bg-red-600 mt-2 text-white px-3 py-1 rounded-md shadow-sm hover:bg-red-800"
                 >
                     Delete
-                </button>
+                </button> -->
 
     </div>
-    <!-- <button 
-            v-else 
-            @click="deleteUser(user)" 
-            class="bg-red-600 text-white px-3 py-1 rounded-md shadow-sm hover:bg-red-800"
-        >
-            Delete
-        </button> -->
 </td>
 
                         </tr>
@@ -164,3 +94,57 @@ const form = useForm({});
         </h1>
     </div>
 </template>
+
+<script>
+export default {
+    props: {
+        users: Object,
+    },
+    methods: {
+    enableEdit(user) {
+      user.isEditing = true; // Enable editing mode
+      user.updatedTechCategory = user.techcategory; // Initialize with current techcategory
+    },
+    cancelEdit(user) {
+      user.isEditing = false; // Disable editing mode
+      user.updatedTechCategory = user.techcategory; // Revert to original techcategory
+    },
+    confirmTechCategoryChange(user) {
+      if (!user.updatedTechCategory) {
+        alert('Please select a techcategory before confirming.');
+        return;
+      }
+    //   console.log('hfjskfhsjdfhkj ->>>>>', user.updatedTechCategory );
+      
+      // Send the techcategory update to the backend
+      router.put(`/technicien/${user.id}/update-techcategory`, { techcategory: user.updatedTechCategory }, {
+        onSuccess: () => {
+          user.techcategory = user.updatedTechCategory;
+          user.isEditing = false;
+        },
+        onError: (errors) => {
+        //   console.error('here--------------');
+          console.error(errors);
+        },
+      });
+    },
+  },
+};
+</script>
+<script setup>
+    import { ref, watch } from "vue";
+    import { router } from "@inertiajs/vue3";
+    import { useForm } from '@inertiajs/vue3';
+    import { debounce } from "lodash";
+    import { usePage } from '@inertiajs/vue3';
+
+    defineProps({
+        users: Object,
+        searchTerm: String,
+        can: Object,
+    });
+
+    const search = ref("");
+    watch(search, debounce((q) => router.get('/users', { search: q }, { preserveState: true }), 500));
+
+</script>

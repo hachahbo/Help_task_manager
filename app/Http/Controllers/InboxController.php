@@ -19,7 +19,7 @@ class InboxController extends Controller
     if ($user->role === 'user') {
         // Fetch the IDs of tickets where the user is the submitter
         $ticketIds = Ticket::where('submitter_id', $user->id)->pluck('id');
-
+        
         $comments = Comment::with(['ticket:id,title,priority', 'user:id,name,email'])
             ->select('id', 'ticket_id', 'user_id', 'comment', 'created_at') 
             ->whereIn('ticket_id', $ticketIds)
@@ -33,10 +33,34 @@ class InboxController extends Controller
             })
             ->values(); // Reset the keys after mapping to get an indexed collection
 
-        return Inertia::render('Inbox', [
-            'comments' => $comments,
-        ]);
-    }
+            return Inertia::render('Inbox', [
+                'comments' => $comments,
+            ]);
+        }
+        if ($user->role === 'technicien') {
+
+            $comments = Comment::with(['ticket:id,title,priority', 'user:id,name,email'])
+                ->select('id', 'ticket_id', 'user_id', 'comment', 'created_at')
+                ->where('user_id', '!=', $user->id) // Exclude logged-in user's own comments
+                ->when($user->role === 'technicien', function ($query) use ($user) {
+                    // If the user is a technician, filter by their techgategory
+                    $query->whereHas('ticket', function ($ticketQuery) use ($user) {
+                        $ticketQuery->where('category', $user->techgategory);
+                    });
+                })
+                ->orderBy('ticket_id') // Group by ticket
+                ->orderBy('created_at', 'desc') // Latest comments first
+                ->get()
+                ->groupBy('ticket_id') // Group comments by ticket_id
+                ->map(function ($ticketComments) {
+                    // Get the latest comment for each ticket
+                    return $ticketComments->first();
+                })
+                ->values(); // Reset the keys
+                return Inertia::render('Inbox', [
+                    'comments' => $comments,
+                ]);
+            }
 
     // For 'admin' or 'technician' role
     $comments = Comment::with(['ticket:id,title,priority', 'user:id,name,email'])

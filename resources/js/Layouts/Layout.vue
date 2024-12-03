@@ -2,7 +2,8 @@
 <script setup>
     import { Link, Head } from '@inertiajs/vue3';
     import { route } from '../../../vendor/tightenco/ziggy/src/js';
-import ToastList from '../pages/Components/ToastList.vue';
+    import ToastList from '../pages/Components/ToastList.vue';
+    import ProfileOverView from '../pages/Components/ProfileOverView.vue';
 
 </script>
 <template>
@@ -71,6 +72,7 @@ import ToastList from '../pages/Components/ToastList.vue';
                         </svg>
                         <Link class="ml-2 font-semibold"  method="post" :href="route('logout')">Logout</Link>
                     </Link>
+                    <ProfileOverView></ProfileOverView>
                 </div>
                 <div v-else  class="space-x-6 ">
                     <Link class="nav-link" :href="route('register')">Register</Link>
@@ -273,8 +275,8 @@ import ToastList from '../pages/Components/ToastList.vue';
                             <Link :href="route('users')" class="flex-1 ms-3 whitespace-nowrap">Users</Link>
                         </Link>
                         </li>
-                        <!-- <li>
-                            <Link :href="route('settings')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
+                        <li v-if="$page.props.auth.user.role === 'admin'">
+                            <Link :href="route('technicien')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
                                 <svg  class=" fill-gray-500 group-hover:fill-gray-900 text-gray-500 transition duration-75" height="23px" width="23px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                 viewBox="0 0 611.999 611.999" xml:space="preserve">
                             <g>
@@ -296,9 +298,9 @@ import ToastList from '../pages/Components/ToastList.vue';
                                 </g>
                             </g>
                             </svg>
-                            <Link class="ml-2" :href="route('settings')">Technicien</Link>
+                            <Link class="ml-2" :href="route('technicien')">Technicien</Link>
                         </Link>
-                        </li> -->
+                        </li>
                         <li>
                             <Link method="post" :href="route('logout')" class="flex items-center p-2 text-white rounded-lg dark:text-white  hover:bg-gray-500 dark:hover:bg-gray-700 group">
                                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">

@@ -50,10 +50,19 @@ Route::middleware(['auth'])->group(function () {
         }
     
         // Apply search filter
-        $tickets = $ticketsQuery->when($request->search, function ($query) use ($request) {
-            $query->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-        })->paginate(8)->withQueryString();
+        $tickets = Ticket::query()
+    // ->when($user->role === 'technicien', function ($query) use ($user) {
+    //     // If the user is a technician, filter by their techgategory
+    //     $query->where('category', $user->techgategory);
+    // })
+    ->when($request->search, function ($query) use ($request) {
+        // Add search filtering
+        $query->where('title', 'like', '%' . $request->search . '%')
+              ->orWhere('description', 'like', '%' . $request->search . '%');
+    })
+    ->paginate(8)
+    ->withQueryString();
+
     
         $ticketCounts = [
             'pending' => Ticket::where('status', 'pending')->when($user->role === 'user', function ($query) use ($user) {
@@ -79,20 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inbox', [InboxController::class, 'index'])->name('inbox');
 
     
-    Route::get('/settings', function (Request $request) {
-
-        return Inertia::render('users', [
-            'users' => User::when($request->search, function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
-            })->where('role', 'technicien')->paginate(8)->withQueryString(),
-            'searchTerm' => $request->search,
-            'can' => [
-                'delete_user' => Auth::user() 
-                    ? Auth::user()->can('delete', User::class) 
-                    : null,
-            ],
-        ]);
-    })->name('settings');    
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); 
 
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
@@ -104,12 +100,12 @@ Route::middleware(['auth'])->group(function () {
     ->middleware('auth')
     ->name('tickets.updateStatus');
     // 
-
+    
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
     Route::post('/test', function () {
         return redirect()->back()->with('toast', 'Toast endpoint!');
     });
-
+    
     
     // comments
     Route::get('/tickets/{ticketId}/comments', [TicketController::class, 'getComments']);
@@ -121,7 +117,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::put('/users/{id}/update-role', [AdminController::class, 'updateRole']);
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
-    
+    Route::get('/technicien', [AdminController::class, 'techniciencontroller'])->name('technicien');
+    Route::put('/technicien/{id}/update-techcategory', [AdminController::class, 'updateTechCategory']);
+
     
 });
 
