@@ -12,8 +12,12 @@ return new class extends Migration
     public function up()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->enum('role', ['admin', 'user', 'technicien'])->default('user'); // Example column definition
+        // Check if the column doesn't already exist before adding it
+        if (!Schema::hasColumn('users', 'role')) {
+            $table->enum('role', ['admin', 'user', 'technicien'])->default('user');
+        }
     });
+
 }
 
 public function down()
