@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+       dockerfile: Dockerfile
+    volumes:
+      - D:/newtaskhelper/Help_task_manager/public:/usr/share/nginx/html  # Link to Laravel's public directory
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Nginx configuration
+      - ./ssl:/etc/nginx/ssl  
+      - ./html:/usr/share/nginx/html
+      # SSL certificates
+    ports:
+      - "8081:8081"  # HTTP
+      - "8443:8443"  # HTTPS
+    depends_on:
+      - php
+    networks:
+      - web
+
+  php:
+    image: php:8.1-fpm
+    volumes:
+      - D:/newtaskhelper/Help_task_manager/public:/usr/share/nginx/html  # Link to Laravel's public directory
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge

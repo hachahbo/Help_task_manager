@@ -10,8 +10,8 @@ RUN mkdir -p /etc/nginx/ssl
 # Generate a self-signed SSL certificate
 RUN openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
-  -keyout /etc/nginx/ssl/server.key \
-  -out /etc/nginx/ssl/server.crt \
+  -keyout /etc/ssl/server.key \
+  -out /etc/ssl/server.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 
 # Copy custom Nginx configuration
